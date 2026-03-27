@@ -1,3 +1,28 @@
+x-laravel-env: &laravel-env
+  APP_ENV: local
+  APP_DEBUG: true
+  APP_URL: http://localhost:8000
+  DB_CONNECTION: pgsql
+  DB_HOST: postgres
+  DB_PORT: 5432
+  DB_DATABASE: agendify
+  DB_USERNAME: agendify
+  DB_PASSWORD: agendify
+  QUEUE_CONNECTION: redis
+  CACHE_STORE: redis
+  SESSION_DRIVER: database
+  REDIS_CLIENT: predis
+  REDIS_HOST: redis
+  REDIS_PASSWORD: null
+  REDIS_PORT: 6379
+  MAIL_MAILER: smtp
+  MAIL_HOST: mailpit
+  MAIL_PORT: 1025
+  MAIL_USERNAME: null
+  MAIL_PASSWORD: null
+  MAIL_FROM_ADDRESS: noreply@agendify.local
+  MAIL_FROM_NAME: Agendify
+
 services:
   app:
     image: agendify-app-local
@@ -8,18 +33,7 @@ services:
     volumes:
       - ./:/var/www
       - /var/www/vendor
-    environment:
-      APP_ENV: local
-      APP_DEBUG: true
-      DB_CONNECTION: pgsql
-      DB_HOST: postgres
-      DB_PORT: 5432
-      DB_DATABASE: agendify
-      DB_USERNAME: agendify
-      DB_PASSWORD: agendify
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
-      REDIS_CLIENT: predis
+    environment: *laravel-env
     depends_on:
       - postgres
       - redis
@@ -42,6 +56,7 @@ services:
     volumes:
       - ./:/var/www
       - /var/www/vendor
+    environment: *laravel-env
     depends_on:
       - app
       - redis
@@ -54,6 +69,7 @@ services:
     volumes:
       - ./:/var/www
       - /var/www/vendor
+    environment: *laravel-env
     depends_on:
       - app
       - redis

@@ -1,11 +1,38 @@
-@import 'tailwindcss';
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+@layer base {
+    :root {
+        --background: 242 247 252;
+        --foreground: 15 23 42;
+        --card: 255 255 255;
+        --card-foreground: 15 23 42;
+        --brand: 14 116 144;
+        --brand-foreground: 240 249 255;
+        --success: 13 148 136;
+        --warning: 217 119 6;
+        --danger: 220 38 38;
+        --border: 203 213 225;
+    }
+
+    .dark {
+        --background: 2 6 23;
+        --foreground: 226 232 240;
+        --card: 15 23 42;
+        --card-foreground: 226 232 240;
+        --brand: 34 211 238;
+        --brand-foreground: 8 47 73;
+        --success: 45 212 191;
+        --warning: 251 191 36;
+        --danger: 248 113 113;
+        --border: 51 65 85;
+    }
+
+    body {
+        @apply bg-slate-100 text-slate-900 antialiased dark:bg-slate-950 dark:text-slate-100;
+        background-image: radial-gradient(circle at top right, rgba(14, 116, 144, 0.18), transparent 42%), radial-gradient(circle at bottom left, rgba(20, 184, 166, 0.14), transparent 35%);
+    }
 }

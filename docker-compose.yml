@@ -10,7 +10,8 @@ x-laravel-env: &laravel-env
   DB_PASSWORD: agendify
   QUEUE_CONNECTION: redis
   CACHE_STORE: redis
-  SESSION_DRIVER: database
+  SESSION_DRIVER: redis
+  SESSION_CONNECTION: default
   REDIS_CLIENT: predis
   REDIS_HOST: redis
   REDIS_PASSWORD: null

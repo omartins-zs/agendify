@@ -16,8 +16,13 @@ RUN apk add --no-cache \
     libpq-dev \
     linux-headers
 
-RUN docker-php-ext-install pdo pdo_pgsql bcmath pcntl
+RUN docker-php-ext-install pdo pdo_pgsql bcmath pcntl opcache
 
+# Instalação do redis via PECL
+RUN apk add --no-cache pcre-dev $PHPIZE_DEPS \
+    && pecl install redis \
+    && docker-php-ext-enable redis \
+    && apk del pcre-dev $PHPIZE_DEPS
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www
@@ -34,4 +39,12 @@ COPY . .
 RUN mkdir -p storage bootstrap/cache
 RUN chown -R www-data:www-data storage bootstrap/cache
 
-CMD ["php-fpm"]
+# Copia configurações de performance
+COPY ./docker/php/local.ini /usr/local/etc/php/conf.d/local.ini
+COPY ./docker/php/fpm-performance.conf /usr/local/etc/php-fpm.d/zz-performance.conf
+
+# Adiciona o script de inicialização inteligente
+COPY ./docker/scripts/start-app.sh /usr/local/bin/start-app.sh
+RUN chmod +x /usr/local/bin/start-app.sh
+
+CMD ["/usr/local/bin/start-app.sh"]
